@@ -8,6 +8,7 @@
         { 'label': 'Show autocomplete status', 'command': 'Robot Framework:Show autocomplete status' }
         { 'label': 'Reload autocomplete data', 'command': 'Robot Framework:Reload autocomplete data' }
         { 'label': 'Print autocomplete debug info', 'command': 'Robot Framework:Print autocomplete debug info' }
+        { 'label': 'Print autocomplete debug info (current file)', 'command': 'Print autocomplete debug info (current file)' }
       ]
     ]
   }
