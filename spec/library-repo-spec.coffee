@@ -13,7 +13,7 @@ describe "Library repository", ->
     waitsForPromise ->
       libRepo.importLibraries(['package.modules.TestModule'], libDir, [], pythonExecutable)
     runs ->
-      libraries = libRepo.getLibrariesByName()
+      libraries = libRepo.getLibrariesByKey()
       library = libraries.get('package.modules.TestModule')
       expect(library).toBeDefined()
       expect(library.status).toEqual('success')
@@ -22,7 +22,7 @@ describe "Library repository", ->
     waitsForPromise ->
       libRepo.importLibraries(['package.classes.TestClass'], libDir, [], pythonExecutable)
     runs ->
-      libraries = libRepo.getLibrariesByName()
+      libraries = libRepo.getLibrariesByKey()
       library = libraries.get('package.classes.TestClass')
       expect(library).toBeDefined()
       expect(library.status).toEqual('success')
@@ -31,7 +31,7 @@ describe "Library repository", ->
     waitsForPromise ->
       libRepo.importLibraries(['package.classes.TestClass.TestClass'], libDir, [], pythonExecutable)
     runs ->
-      libraries = libRepo.getLibrariesByName()
+      libraries = libRepo.getLibrariesByKey()
       library = libraries.get('package.classes.TestClass.TestClass')
       expect(library).toBeDefined()
       expect(library.status).toEqual('success')
@@ -40,7 +40,7 @@ describe "Library repository", ->
     waitsForPromise ->
       libRepo.importLibraries(['robot.libraries.OperatingSystem'], libDir, [], pythonExecutable)
     runs ->
-      libraries = libRepo.getLibrariesByName()
+      libraries = libRepo.getLibrariesByKey()
       library = libraries.get('robot.libraries.OperatingSystem')
       expect(library).toBeDefined()
       expect(library.status).toEqual('success')

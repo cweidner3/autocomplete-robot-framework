@@ -159,7 +159,7 @@ def _store_libraries(libraries, cache_dir):
         physical = library_info.lower().endswith(".py")
         library_map[library_info] = {
             'name': library_info,
-            'resourceKey': library_info,
+            'libraryKey': library_info,
             'status': 'pending',
             'message': 'To be imported',
             'physical': physical,
@@ -185,7 +185,7 @@ def _store_libraries(libraries, cache_dir):
             if not module:
                 library_map[library_info] = {
                     'name': library_name,
-                    'resourceKey': library_info,
+                    'libraryKey': library_info,
                     'status': 'error',
                     'message': "Could not import '%s': '%s'" % (library_name, error),
                     'physical': physical,
@@ -197,7 +197,7 @@ def _store_libraries(libraries, cache_dir):
                 xml_libdoc_path = _generate_libdoc_xml(library_info, library_file_name, cache_dir)
                 library_map[library_info] = {
                     'name': library_name,
-                    'resourceKey': library_info,
+                    'libraryKey': library_info,
                     'status': 'success',
                     'xmlLibdocPath': xml_libdoc_path,
                     'sourcePath': library_info if physical else _get_module_source(module),
@@ -206,12 +206,19 @@ def _store_libraries(libraries, cache_dir):
             else:
                 library_map[library_info] = {
                     'name': library_name,
-                    'resourceKey': library_info,
+                    'libraryKey': library_info,
                     'status': 'success',
                     'xmlLibdocPath': xml_libdoc_path,
                     'sourcePath': library_info if physical else _get_module_source(module),
                     'physical': physical
                     }
+            # cleanup module; avoid keyword clashes between physical and normal
+            # modules with identical names.
+            try:
+                if library_name in sys.modules:
+                    del sys.modules[library_name]
+            except Exception as exc:
+                pass
         except Exception as exc:
             error = "Unexpected error: %s, %s" % (exc, traceback.format_exc())
             library_map[library_name] = {'name': library_name, 'status': 'error', 'message': error}
