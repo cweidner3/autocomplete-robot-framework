@@ -45,3 +45,15 @@ describe "Library repository", ->
       expect(library).toBeDefined()
       expect(library.status).toEqual('success')
       expect(library.name).toEqual('robot.libraries.OperatingSystem')
+  it 'should load physical libraries', ->
+    libraryKey = "#{__dirname}/../fixtures/libraries/physical/ph1.py"
+    libraryKey = pathUtils.resolve(libraryKey)
+    waitsForPromise ->
+      libRepo.importLibraries([libraryKey], libDir, [], pythonExecutable)
+    runs ->
+      libraries = libRepo.getLibrariesByKey()
+      library = libraries.get(libraryKey)
+      expect(library).toBeDefined()
+      expect(library.status).toEqual('success')
+      expect(library.name).toEqual('ph1')
+      expect(library.libraryKey).toEqual(libraryKey)

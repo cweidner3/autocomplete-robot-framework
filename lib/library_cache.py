@@ -7,8 +7,9 @@ Parameters:
 Outputs Json string with this format:
 {
     libraries:{
-        'library_name'{
+        'libraryKey'{
           name: 'library_name',
+          libraryKey: 'library name for normal libraries/library path for physical libraries',
           status: 'error/success',
           message: 'error or warning message',
           xmlLibdocPath: 'path of libdoc file',
@@ -148,7 +149,7 @@ def _library_file_name(library_info):
     return library_info
 
 # Saves libraries into cache_dir as libdoc files.
-# * libraries - list of library names or paths
+# * libraries - list of library names (for normal libraries) or paths (for physical libraries)
 # * cache_dir - path to store libdoc files; acts like a cache: libdoc is
 #               updated when newer python library is available
 def _store_libraries(libraries, cache_dir):
@@ -221,7 +222,7 @@ def _store_libraries(libraries, cache_dir):
                 pass
         except Exception as exc:
             error = "Unexpected error: %s, %s" % (exc, traceback.format_exc())
-            library_map[library_name] = {'name': library_name, 'status': 'error', 'message': error}
+            library_map[library_info] = {'name': library_name, 'libraryKey': library_info, 'status': 'error', 'message': error}
     return {
         'libraries': library_map,
         'environment': {
